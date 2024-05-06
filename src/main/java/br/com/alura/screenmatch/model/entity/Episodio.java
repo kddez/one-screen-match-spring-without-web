@@ -1,15 +1,27 @@
-package br.com.alura.screenmatch.model;
+package br.com.alura.screenmatch.model.entity;
+
+import br.com.alura.screenmatch.model.dto.DadosEpisodio;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity
+@Table(name = "tb_episodios")
 public class Episodio {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
     private LocalDate dataLancamento;
+    @ManyToOne
+    private Serie serie;
+
+    public Episodio(){}
 
     public Episodio(Integer temporada, DadosEpisodio dadosEpisodio) {
         this.temporada = temporada;
@@ -28,6 +40,22 @@ public class Episodio {
             this.dataLancamento = null;
         }
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 
     public Integer getTemporada() {
@@ -72,11 +100,10 @@ public class Episodio {
 
     @Override
     public String toString() {
-        return
-                "temporada=" + temporada +
-                ", titulo='" + titulo + '\'' +
-                ", numeroEpisodio=" + numeroEpisodio +
-                ", avaliacao=" + avaliacao +
-                ", dataLancamento=" + dataLancamento;
+        return titulo + '\'' +
+                " Temporada: " + temporada +
+                ", Episódio N.: " + numeroEpisodio + '\'' +
+                " Avaliação: " + avaliacao + '\'' +
+                ", Data de Lançamento: " + dataLancamento;
     }
 }
